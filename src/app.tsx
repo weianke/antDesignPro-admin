@@ -14,6 +14,8 @@ const loginPath = '/user/login';
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * description: 获取初始化状态
+ * 只有页面加载时（第一次访问）才会执行该函数，获取初始状态，包括用户信息、设置等。
+ * 该函数返回一个 Promise，可以获取到初始状态，包括用户信息、设置等。
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
@@ -21,6 +23,7 @@ export async function getInitialState(): Promise<{
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
+  console.log('🚀 ~ getInitialState ~ getInitialState执行');
   const fetchUserInfo = async () => {
     // 临时注释， 因为登录接口还未完成
     // try {
@@ -55,6 +58,7 @@ export async function getInitialState(): Promise<{
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
+  // 访问登录页面
   return {
     fetchUserInfo,
     settings: defaultSettings as Partial<LayoutSettings>,
@@ -64,7 +68,9 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
-    actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
+    // 渲染顶部导航-文档or国际化
+    actionsRender: () => [<SelectLang key="SelectLang" />],
+    // 渲染头像和 username
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
@@ -72,10 +78,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
+    // 设置水印
     waterMarkProps: {
       content: initialState?.currentUser?.name,
     },
+    // 底部
     footerRender: () => <Footer />,
+    // 路由变化调用 onPageChange
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
@@ -91,6 +100,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         // history.push(loginPath);
       }
     },
+    // 整个layout组件的背景图片
     bgLayoutImgList: [
       {
         src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr',
@@ -119,8 +129,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           </Link>,
         ]
       : [],
+    // 设置菜单左上角的 title, () => 组件的形式
     menuHeaderRender: undefined,
-    // 自定义 403 页面
+    // 自定义 403 页面-没有权限
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
     childrenRender: (children) => {
