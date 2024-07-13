@@ -23,7 +23,7 @@ export async function getInitialState(): Promise<{
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
-  console.log('🚀 ~ getInitialState ~ getInitialState执行');
+  // 调用接口获取用户信息
   const fetchUserInfo = async () => {
     // 临时注释， 因为登录接口还未完成
     // try {
@@ -41,6 +41,7 @@ export async function getInitialState(): Promise<{
       userid: '332ji234324ji2-dd00',
       username: 'admin',
       age: 18,
+      access: 'admin',
       avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
       name: 'Admin',
       address: '郑州',

@@ -11,50 +11,140 @@
  * @doc https://umijs.org/docs/guides/routes
  */
 export default [
+  // 登录模块
   {
-    path: '/user',
+    path: '/login',
     layout: false,
-    routes: [
-      {
-        name: 'login',
-        path: '/user/login',
-        component: './User/Login',
-      },
-    ],
-  },
-  {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
-    routes: [
-      {
-        path: '/admin',
-        redirect: '/admin/sub-page',
-      },
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
-      },
-    ],
-  },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
+    component: './User/Login',
   },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/dashboard/sysInfo',
   },
+  // 系统模块
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    icon: 'dashboard',
+    routes: [
+      {
+        path: '/dashboard',
+        // 重定向
+        redirect: '/dashboard/sysInfo',
+      },
+      {
+        path: '/dashboard/sysInfo',
+        name:'系统介绍',
+        icon: 'WindowsOutlined',
+        component: './Dashboard/SysInfo',
+      },
+      {
+        path: '/dashboard/dashboard',
+        name:'dashboard',
+        icon:'Bold',
+        component: './Dashboard/Dashboard',
+      },
+      {
+        path: '/dashboard/addGoods',
+        name:'添加商品',
+        icon: 'Plus',
+        component: './Dashboard/AddGoods',
+      },
+    ],
+  },
+  // 首页配置模块
+  {
+    path: '/home',
+    name: '首页配置',
+    icon: 'home',
+    routes: [
+      {
+        path: '/home',
+        // 重定向
+        redirect: '/home/banner',
+      },
+      {
+        path: '/home/banner',
+        name:'轮播图配置',
+        icon: '',
+        component: './Home/Banner',
+      },
+      {
+        path: '/home/hotsale',
+        name:'热销商品配置',
+        icon:'',
+        component: './Home/HotSale',
+      },
+      {
+        path: '/home/new',
+        name:'新品上线配置',
+        icon: '',
+        component: './Home/New',
+      },
+      {
+        path: '/home/recommend',
+        name:'为你推荐配置',
+        icon: '',
+        component: './Home/Recommend',
+      },
+    ],
+  },
+  // 模块管理
+  {
+    path: '/module',
+    name: '模块管理',
+    icon: 'Appstore',
+    routes: [
+      {
+        path: '/module',
+        // 重定向
+        redirect: '/module/classify',
+      },
+      {
+        path: '/module/classify',
+        name:'分类管理',
+        icon: '',
+        component: './Module/Classify',
+      },
+      {
+        path: '/module/goods',
+        name:'商品管理',
+        icon:'',
+        component: './Module/Goods',
+      },
+      {
+        path: '/module/member',
+        name:'会员管理',
+        icon: '',
+        component: './Module/Member',
+      },
+      {
+        path: '/module/order',
+        name:'订单管理',
+        icon: '',
+        component: './Module/Order',
+      },
+    ],
+  },
+  // 系统管理
+  {
+    path: '/sys',
+    name: '系统管理',
+    icon: 'setting',
+    routes: [
+      {
+        path: '/sys',
+        redirect: '/sys/changepwd',
+      },
+      {
+        path: '/sys/changepwd',
+        name:'修改密码',
+        icon: '',
+        component: './Sys/ChangePwd',
+      }
+    ]
+  },
+  // 404页面
   {
     path: '*',
     layout: false,
